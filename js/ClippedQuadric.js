@@ -4,7 +4,8 @@ class ClippedQuadric extends UniformProvider {
     constructor(id, ...programs) {
       super(`clippedQuadrics[${id}]`);
       this.surface = new Mat4(); 
-      this.clipper = new Mat4(); 
+      this.clipper1 = new Mat4(); 
+      this.clipper2 = new Mat4(); 
       this.T = new Mat4();
       this.clipT = new Mat4();
       this.scale = new Vec3(1, 1, 1); 
@@ -30,9 +31,9 @@ class ClippedQuadric extends UniformProvider {
       translate(this.clipPosition);
 
       this.clipT.invert();          // T is now T-1
-      this.clipper.premul(this.clipT);   // A is now T-1 * A
+      this.clipper1.premul(this.clipT);   // A is now T-1 * A
       this.clipT.transpose();       // T is now T-1T
-      this.clipper.mul(this.clipT);      // A is now A'
+      this.clipper1.mul(this.clipT);      // A is now A'
     }
 
     transform() {
@@ -45,11 +46,13 @@ class ClippedQuadric extends UniformProvider {
 
       this.T.invert();          // T is now T-1
       this.surface.premul(this.T);   // A is now T-1 * A
-      this.clipper.premul(this.T);   // A is now T-1 * A
+      this.clipper1.premul(this.T);   // A is now T-1 * A
+      this.clipper2.premul(this.T);   // A is now T-1 * A
       this.clipT.premul(this.T);   // A is now T-1 * A
       this.T.transpose();       // T is now T-1T
       this.surface.mul(this.T);      // A is now A'
-      this.clipper.mul(this.T);      // A is now A'
+      this.clipper1.mul(this.T);      // A is now A'
+      this.clipper2.mul(this.T);      // A is now A'
       this.clipT.mul(this.T);      // A is now A'
     }
 
@@ -58,10 +61,14 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0,  1,  0,
                        0,  0,  0, -1);
-      this.clipper.set(0,  0,  0,  0,
+      this.clipper1.set(0,  0,  0,  0,
                        0,  1,  0,  0,
                        0,  0,  0,  0,
                        0,  0,  0, -1);
+      this.clipper2.set(0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0, -1);
       this.transform();
     }
 
@@ -70,10 +77,14 @@ class ClippedQuadric extends UniformProvider {
                        0,  1,  0,  0,
                        0,  0,  1,  0,
                        0,  0,  0, -1);
-      this.clipper.set(0,  0,  0,  0,
+      this.clipper1.set(0,  0,  0,  0,
                        0,  0,  0,  0,
                        0,  0,  0,  0,
                        0,  0,  0, -1);
+      this.clipper2.set(0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0, -1);
       this.transform();
     }
 
@@ -82,10 +93,14 @@ class ClippedQuadric extends UniformProvider {
                        0,  1,  0,  0,
                        0,  0,  1,  0,
                        0,  0,  0, -1);
-      this.clipper.set(-1,  0,  0,  0,
+      this.clipper1.set(-1,  0,  0,  0,
                        0,  -1,  0,  0,
                        0,  0,  0,  0,
                        0,  0,  0, 0.25);
+      this.clipper2.set(0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0, -1);
       this.clipScale.set(0.5, 3, 0.5);
       this.clipPosition.set(0.75, 1.5, 0);
       this.clipRoll = -3.5;
@@ -98,10 +113,14 @@ class ClippedQuadric extends UniformProvider {
                        0,  -1,  0,  0,
                        0,  0,  1,  0,
                        0,  0,  0, 0);
-      this.clipper.set(0,  0,  0,  0,
+      this.clipper1.set(0,  0,  0,  0,
                        0,  1,  0,  0.5,
                        0,  0,  0,  0,
                        0,  0.5,  0, 0);
+      this.clipper2.set(0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0, -1);
       this.transform();
     }
 
@@ -110,10 +129,62 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  -0.5,
                        0,  0,  1,  0,
                        0,  -0.5,  0, 0);
-      this.clipper.set(0,  0,  0,  0,
+      this.clipper1.set(0,  0,  0,  0,
                        0,  1,  0,  -0.5,
                        0,  0,  0,  0,
                        0,  -0.5,  0, 0);
+      this.clipper2.set(0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0,  0,
+                 0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeYPlane() {
+      this.surface.set(0,  0,  0,  0,     // y = 0 plane
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.clipper1.set(0,  0,  0,  0,    // parallel clipping planes in x dim
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -144);
+      this.clipper2.set(1,  0,  0,  0,    // parallel clipping planes in z dim
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -144);
+      this.transform();
+    }
+
+    makeXPlane() {
+      this.surface.set(1,  0,  0,  0,     // y = 0 plane
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -144);
+      this.clipper1.set(0,  0,  0,  0,    // parallel clipping planes in x dim
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -144);
+      this.clipper2.set(0,  0,  0,  0,    // parallel clipping planes in z dim
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeZPlane() {
+      this.surface.set(0,  0,  0,  0,     // y = 0 plane
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -144);
+      this.clipper1.set(1,  0,  0,  0,    // parallel clipping planes in x dim
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -144);
+      this.clipper2.set(0,  0,  0,  0,    // parallel clipping planes in z dim
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.transform();
     }
 }

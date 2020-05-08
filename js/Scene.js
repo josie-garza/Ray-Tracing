@@ -34,40 +34,50 @@ class Scene extends UniformProvider {
     this.gameObjects.push(this.traceQuad);
 
     this.light1 = new Light(this.lights.length, ...this.programs);
-    this.light1.position.set(0.5, 0.5, 0.5, 0).normalize();
+    this.light1.position.set(5.0, 5.0, 17.0, 0);
     this.light1.powerDensity.set(0.9, 0.9, 0.9);
     this.lights.push(this.light1);
 
+    // Table
+    this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
+    this.clippedQuadrics[0].position.set(9, -4.5, 9);
+    this.clippedQuadrics[0].makeYPlane();
+    this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
+    this.clippedQuadrics[1].position.set(9, -4.5, 9);
+    this.clippedQuadrics[1].makeXPlane();
+    this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
+    this.clippedQuadrics[2].position.set(9, -4.5, 9);
+    this.clippedQuadrics[2].makeZPlane();
+
     // Pawn
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[0].scale.set(0.5, 0.5, 0.5);
-    this.clippedQuadrics[0].position.set(2, -1, 0);
-    this.clippedQuadrics[0].makeUnitSphere();
+    this.clippedQuadrics[3].scale.set(0.5, 0.5, 0.5);
+    this.clippedQuadrics[3].position.set(13.5, -1.5, 16.5);
+    this.clippedQuadrics[3].makeUnitSphere();
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[1].scale.set(1, 2, 1);
-    this.clippedQuadrics[1].position.set(2, -1, 0);
-    this.clippedQuadrics[1].makeUnitCone();
+    this.clippedQuadrics[4].scale.set(1, 2, 1);
+    this.clippedQuadrics[4].position.set(13.5, -1.5, 16.5);
+    this.clippedQuadrics[4].makeUnitCone();
 
     // Bishop
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[2].scale.set(0.5, 0.5, 0.5);
-    this.clippedQuadrics[2].makeUnitBishop();
+    this.clippedQuadrics[5].scale.set(0.5, 0.5, 0.5);
+    this.clippedQuadrics[5].position.set(7.5, -0.5, 16.5);
+    this.clippedQuadrics[5].makeUnitBishop();
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[3].scale.set(1, 3, 1);
-    this.clippedQuadrics[3].makeUnitCone();
+    this.clippedQuadrics[6].scale.set(1, 3, 1);
+    this.clippedQuadrics[6].position.set(7.5, -0.5, 16.5);
+    this.clippedQuadrics[6].makeUnitCone();
 
     // King
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[4].scale.set(0.75, 1, 0.75);
-    this.clippedQuadrics[4].position.set(-2, -0.5, 0);
-    this.clippedQuadrics[4].makeParaboloid();
+    this.clippedQuadrics[7].scale.set(0.75, 1, 0.75);
+    this.clippedQuadrics[7].position.set(10.5, -1, 19.5);
+    this.clippedQuadrics[7].makeParaboloid();
     this.clippedQuadrics.push(new ClippedQuadric(this.clippedQuadrics.length, ...this.programs));
-    this.clippedQuadrics[5].scale.set(1, 3, 1);
-    this.clippedQuadrics[5].position.set(-2, 0, 0);
-    this.clippedQuadrics[5].makeUnitCone();
-
-    this.doubleClippedQuadrics.push(new DoubleClippedQuadric(this.doubleClippedQuadrics.length, ...this.programs));
-    this.doubleClippedQuadrics[0].makePlane();
+    this.clippedQuadrics[8].scale.set(1, 3, 1);
+    this.clippedQuadrics[8].position.set(10.5, -0.5, 19.5);
+    this.clippedQuadrics[8].makeUnitCone();
 
     this.camera = new PerspectiveCamera(...this.programs); 
     this.camera.position.set(0, 5, 25);

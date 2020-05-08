@@ -1,12 +1,12 @@
 //TODO:
-	1. Chessboard
-	2. Sun
-	3. Gloria
-	4. Ebony and Ivory
-	5. Wood/Marble/Animation
+	1. Sun
+	2. Ebony and Ivory
+	3. Wood/Marble/Animation
+	4. Gloria
 
 // DONE:
 	1. Environment Background
 	2. Pawns
 	3. Bishops
 	4. King
+	5. Checkerboard
