@@ -3,7 +3,7 @@
 class PerspectiveCamera extends UniformProvider {
   constructor(...programs) { 
     super("camera");
-    this.position = new Vec3(0, 0, 5); 
+    this.position = new Vec3(0, 0, 0); 
     this.roll = 0;
     this.pitch = 0;
     this.yaw = 0;  
@@ -110,6 +110,12 @@ class PerspectiveCamera extends UniformProvider {
   } 
   mouseUp() { 
     this.isDragging = false; 
+    // console.log(this.roll);
+    // console.log(this.pitch);
+    // console.log(this.yaw);
+    // console.log(this.position.x);
+    // console.log(this.position.y);
+    // console.log(this.position.z);
   } 
 
 }

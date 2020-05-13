@@ -9,7 +9,7 @@ class ClippedQuadric extends UniformProvider {
       this.T = new Mat4();
       this.clipT = new Mat4();
       this.scale = new Vec3(1, 1, 1); 
-      this.position = new Vec3(0, 0, 0); 
+      this.position = new Vec3(); 
       this.roll = 0; 
       this.pitch = 0; 
       this.yaw = 0; 
@@ -66,9 +66,9 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0,  0, -1);
       this.clipper2.set(0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0, -1);
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.transform();
     }
 
@@ -82,9 +82,9 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0,  0, -1);
       this.clipper2.set(0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0, -1);
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.transform();
     }
 
@@ -98,9 +98,9 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0,  0, 0.25);
       this.clipper2.set(0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0, -1);
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.clipScale.set(0.5, 3, 0.5);
       this.clipPosition.set(0.75, 1.5, 0);
       this.clipRoll = -3.5;
@@ -118,9 +118,9 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0.5,  0, 0);
       this.clipper2.set(0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0, -1);
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.transform();
     }
 
@@ -134,9 +134,25 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  -0.5,  0, 0);
       this.clipper2.set(0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0,  0,
-                 0,  0,  0, -1);
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeHyperboloid() {
+      this.surface.set(1,  0,  0,  0,
+                       0,  -1,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, 1);
+      this.clipper1.set(0,  0,  0,  0,
+                       0,  1,  0,  1.5,
+                       0,  0,  0,  0,
+                       0,  1.5,  0, 2);
+      this.clipper2.set(0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
       this.transform();
     }
 
@@ -182,6 +198,54 @@ class ClippedQuadric extends UniformProvider {
                        0,  0,  0,  0,
                        0,  0,  0, -144);
       this.clipper2.set(0,  0,  0,  0,    // parallel clipping planes in z dim
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeRookY() {
+      this.surface.set(0,  0,  0,  0,    
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.clipper1.set(0,  0,  0,  0, 
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -1);
+      this.clipper2.set(1,  0,  0,  0, 
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeRookX() {
+      this.surface.set(1,  0,  0,  0,  
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.clipper1.set(0,  0,  0,  0,   
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -1);
+      this.clipper2.set(0,  0,  0,  0,   
+                       0,  1,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.transform();
+    }
+
+    makeRookZ() {
+      this.surface.set(0,  0,  0,  0,     
+                       0,  0,  0,  0,
+                       0,  0,  1,  0,
+                       0,  0,  0, -1);
+      this.clipper1.set(1,  0,  0,  0,   
+                       0,  0,  0,  0,
+                       0,  0,  0,  0,
+                       0,  0,  0, -1);
+      this.clipper2.set(0,  0,  0,  0,    
                        0,  1,  0,  0,
                        0,  0,  0,  0,
                        0,  0,  0, -1);
